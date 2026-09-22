@@ -1,30 +1,29 @@
 ---
 name: ndt-controlli-non-distruttivi
 description: >-
-  Verifica se i controlli non distruttivi (NDT - visivo, liquidi penetranti PT, particelle magnetiche MT, ultrasuoni UT, radiografia RT) riportati in un certificato sono quelli richiesti dal grado materiale/servizio dichiarato e se l'esito riportato è conforme ai criteri di accettazione. Usa SEMPRE questa skill quando l'utente chiede di verificare/controllare i controlli non distruttivi, gli esiti PT/MT/UT/RT di un certificato, o quando serve sapere quali NDT sono richiesti per un certo grado/servizio.
+  Verifica se un controllo non distruttivo (PT, MT, UT, RT) dichiarato in un certificato cita la norma/metodo di esecuzione corretta (es. ASTM E165 per PT, E709 per MT, E213/E273 per UT, E94/E1032 per RT, ASME BPVC Sez. V per l'esecuzione generale) — controllo di coerenza tra metodo dichiarato e norma citata, non ancora confronto dei criteri di accettazione. Usa SEMPRE questa skill quando l'utente chiede di verificare un controllo non distruttivo riportato in un certificato.
+  ---
 
-    STATO ATTUALE: scheletro non ancora operativo — i criteri di accettazione per metodo NDT sono vuoti in attesa delle norme ufficiali di riferimento (tipicamente ASME BPVC Sez. V per l'esecuzione, ASTM E165/E709/E213/E1032 per metodo, criteri di accettazione da PO/spec cliente). Finché restano vuoti, questa skill deve dichiararlo esplicitamente e non improvvisare i criteri.
-    ---
+  # Controlli non distruttivi (NDT) — coerenza citazione norma per metodo
 
-    # Controlli non distruttivi (NDT) — PT / MT / UT / RT
+  ## Quando attivarla
 
-    Riferimento tecnico sui requisiti NDT per flange e raccordi forgiati prodotti/gestiti da LAME Srl. A differenza delle altre skill di questo plugin, il requisito "quale NDT è richiesto" dipende spesso dall'ordine/specifica cliente e non solo dal grado materiale — questa skill verifica coerenza interna al certificato (metodo eseguito + esito riportato), non presume da sola cosa il cliente avesse richiesto.
+  Un certificato riporta un controllo PT, MT, UT o RT eseguito sull'articolo. Oppure l'utente chiede di verificare la conformità normativa di un controllo non distruttivo.
 
-    ## Quando attivarla
+  ## Norma attesa in funzione del metodo
 
-    - L'utente chiede di verificare/controllare un controllo non distruttivo o il suo esito.
-    - Serve sapere quali NDT sono tipicamente richiesti per un certo grado materiale/servizio (es. servizio sour, alta pressione).
+  | Metodo dichiarato | Norma attesa citata |
+  |---|---|
+  | PT (liquidi penetranti) | ASTM E165 (esecuzione generale: ASME BPVC Sez. V) |
+  | MT (particelle magnetiche) | ASTM E709 (esecuzione generale: ASME BPVC Sez. V) |
+  | UT (ultrasuoni) | ASTM E213 o E273 (esecuzione generale: ASME BPVC Sez. V) |
+  | RT (radiografia) | ASTM E94 o E1032 (esecuzione generale: ASME BPVC Sez. V) |
 
-    ## Cosa deve tabellare `references/ndt-metodi.md` (DA POPOLARE)
+  ## Come applicarla (fase attuale — verifica di coerenza citazione)
 
-    **Edizione/norma da annotare in cima al file una volta creato** (tipicamente ASME BPVC Sez. V per l'esecuzione generale, più le norme ASTM specifiche per metodo: E165 per PT, E709 per MT, E213/E273 per UT, E94/E1032 per RT).
+  Passo (1): identifica quale/i metodo/i NDT sono dichiarati eseguiti sul certificato. Passo (2): per ciascun metodo, controlla che il certificato citi esplicitamente la norma ASTM attesa per quel metodo (e idealmente ASME BPVC Sez. V per l'esecuzione). Passo (3): se per un metodo dichiarato non compare alcuna norma citata, segnalalo come dato mancante. Passo (4): se compare una norma diversa o non pertinente a quel metodo, segnalalo come possibile incoerenza. Passo (5): questo controllo verifica SOLO la presenza/coerenza della citazione normativa, non l'esito del controllo né i criteri di accettazione/rigetto applicati.
 
-    Per ciascun metodo va raccolto: cosa deve riportare il certificato per considerare l'esame eseguito correttamente (procedura, livello di sensibilità/qualificazione operatore se richiesto), e i criteri di accettazione/rigetto tipici (es. dimensione massima ammessa di indicazioni per PT/MT, criteri di classificazione difetti per UT/RT). Se questi criteri sono spesso specificati da PO/spec cliente più che da una tabella fissa di norma, va annotato esplicitamente qui invece di presentarli come limiti universali.
+  ## Verifica dettagliata dei criteri di accettazione (fase futura, non ancora attiva)
 
-    ## Come applicarla
-
-    1. Se `references/ndt-metodi.md` non ha ancora i criteri popolati per il metodo in esame: dillo esplicitamente all'utente e NON stimare criteri di accettazione a memoria.
-    2. Una volta popolato: verifica che il certificato riporti metodo, procedura ed esito in modo completo, e che l'esito dichiarato ("accettabile"/valori misurati) rientri nei criteri applicabili.
-    3. Se il certificato dichiara un metodo NDT eseguito ma non ne riporta l'esito o i criteri di accettazione usati, segnalalo come dato mancante.
-    4. Non presumere quale NDT fosse richiesto dall'ordine se il certificato non lo specifica: limita la verifica a "il metodo dichiarato è stato eseguito ed è conforme ai suoi stessi criteri", segnalando che la pertinenza rispetto all'ordine va confermata separatamente.
-    
+  Un controllo più approfondito (criteri di accettazione/rigetto per metodo, spesso specifici di PO/spec cliente) richiederebbe la tabella di dettaglio in `references/ndt-metodi.md`, oggi non presente. Finché questo file non esiste, non improvvisare criteri di accettazione: limitati al controllo di coerenza della citazione descritto sopra.
+  

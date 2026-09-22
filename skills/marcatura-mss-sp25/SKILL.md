@@ -1,31 +1,27 @@
 ---
 name: marcatura-mss-sp25
 description: >-
-  Verifica se la marcatura riportata sul pezzo/certificato (grado materiale, size, rating/class, produttore, heat number) rispetta il formato e i contenuti richiesti da MSS SP-25 per flange, raccordi e valvole. Usa SEMPRE questa skill quando l'utente chiede di verificare/controllare la marcatura di una flangia o di un raccordo, chiede cosa deve comparire sulla marcatura secondo MSS SP-25, o subito dopo `quality-steel`/`verifica-dimensionale` per controllare la marcatura dell'articolo prima di considerare la scheda definitiva.
+  Verifica se un articolo dichiarato threaded/NPT o comunque soggetto a marcatura secondo MSS SP-25 cita nel certificato la norma di marcatura corretta — controllo di coerenza tra caratteristica dichiarata e norma citata, non ancora confronto dettagliato del contenuto della marcatura. Usa SEMPRE questa skill quando l'utente chiede di verificare la marcatura di flange/raccordi/valvole, o quando un certificato riporta un articolo NPT/threaded/forgiato che dovrebbe citare MSS SP-25.
+  ---
 
-    STATO ATTUALE: scheletro non ancora operativo — la tabella dei requisiti di marcatura per tipo di articolo è vuota in attesa dell'edizione ufficiale di MSS SP-25. Finché resta vuota, questa skill deve dichiararlo esplicitamente e non improvvisare i requisiti.
-    ---
+  # Marcatura — coerenza citazione MSS SP-25 (e norma filettatura per articoli threaded/NPT)
 
-    # Marcatura — MSS SP-25 (Standard Marking System for Valves, Fittings, Flanges, and Unions)
+  ## Quando attivarla
 
-    Riferimento tecnico sui requisiti di marcatura per flange e raccordi forgiati prodotti da LAME Srl. Usala per controllare che la marcatura dichiarata nel certificato (o fotografata/descritta dall'utente) contenga tutti gli elementi richiesti da MSS SP-25 per quel tipo di articolo, nel formato previsto.
+  L'utente chiede di verificare la marcatura di una flangia, di un raccordo o di una valvola. Oppure un certificato riporta un articolo forgiato (flangia, raccordo, valvola) per cui ci si attende una marcatura secondo MSS SP-25. Oppure un certificato riporta un articolo threaded/NPT, per cui ci si attende anche il riferimento alla norma di filettatura (tipicamente ASME B1.20.1).
 
-    ## Quando attivarla
+  ## Norma attesa in funzione della caratteristica
 
-    - L'utente chiede di verificare/controllare la marcatura di un pezzo o di un certificato.
-    - Dopo `quality-steel`/`verifica-dimensionale`, per controllare che la marcatura dichiarata sia coerente con grado, size, rating dell'articolo appena estratto.
-    - Quando serve sapere quali elementi di marcatura sono obbligatori per un certo tipo di articolo.
+  | Caratteristica dichiarata | Norma attesa citata |
+  |---|---|
+  | Flangia, raccordo forgiato o valvola (marcatura generale) | MSS SP-25 |
+  | Raccordo/articolo threaded o NPT (filettatura) | ASME B1.20.1 (o norma di filettatura equivalente esplicitamente citata) |
 
-    ## Cosa deve tabellare `references/mss-sp25.md` (DA POPOLARE)
+  ## Come applicarla (fase attuale — verifica di coerenza citazione)
 
-    **Edizione da annotare in cima al file di riferimento una volta creato** (es. "MSS SP-25-2018" o edizione più recente disponibile).
+  Passo (1): identifica se l'articolo è un tipo per cui MSS SP-25 è pertinente (flangia, raccordo forgiato, valvola) e/o se è dichiarato threaded/NPT. Passo (2): controlla che il certificato citi esplicitamente MSS SP-25 per la marcatura generale, e ASME B1.20.1 (o equivalente) se l'articolo è threaded/NPT. Passo (3): se la norma attesa non compare citata, segnalalo come dato mancante nel certificato. Passo (4): se compare una norma diversa o non pertinente al posto di quella attesa, segnalalo come possibile incoerenza. Passo (5): questo controllo verifica SOLO la presenza/coerenza della citazione normativa, non il contenuto effettivo della marcatura sul pezzo (elementi obbligatori, formato) né la conformità dimensionale della filettatura.
 
-    Per ciascun tipo di articolo (flangia, raccordo forgiato socket-weld/threaded, raccordo buttweld) MSS SP-25 specifica quali elementi sono obbligatori tra: marchio del produttore, grado/materiale (con eventuale simbolo abbreviato), size nominale, rating/class di pressione, e in quali casi il numero di colata (heat number) va marcato sul pezzo stesso oltre che sul certificato. Vanno raccolte anche le eventuali abbreviazioni normalizzate dei gradi materiale (es. come deve comparire "F316L" marcato sul pezzo secondo la norma) per poter confrontare la marcatura reale con quella attesa.
+  ## Verifica dettagliata del contenuto marcatura/filettatura (fase futura, non ancora attiva)
 
-    ## Come applicarla
-
-    1. Se `references/mss-sp25.md` non esiste o non ha ancora i requisiti popolati per il tipo di articolo in esame: dillo esplicitamente all'utente — "non ho ancora i requisiti di marcatura MSS SP-25 per questo tipo di articolo, serve popolare il file di riferimento con l'edizione ufficiale" — e NON dedurre i requisiti a memoria.
-    2. Una volta popolato: verifica che ogni elemento obbligatorio per quel tipo di articolo sia presente nella marcatura dichiarata, e che il formato (es. abbreviazione del grado) sia quello previsto dalla norma.
-    3. Segnala ogni elemento mancante o in formato non conforme, non fermarti al primo.
-    4. Se il tipo di articolo non rientra tra quelli coperti dal file di riferimento, dillo esplicitamente invece di applicare requisiti di un tipo di articolo simile.
-    
+  Un controllo più approfondito (quali elementi devono comparire nella marcatura, formato esatto, tolleranze di filettatura NPT) richiederebbe le tabelle di dettaglio in `references/mss-sp25.md`, oggi non presenti, popolate dai testi ufficiali. Finché questo file non esiste, non improvvisare requisiti di dettaglio: limitati al controllo di coerenza della citazione descritto sopra.
+  
